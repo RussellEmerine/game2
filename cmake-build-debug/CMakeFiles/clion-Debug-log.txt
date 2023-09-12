@@ -1,0 +1,25 @@
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /Users/russell/15466/game2 -B /Users/russell/15466/game2/cmake-build-debug
+-- The C compiler identification is AppleClang 14.0.3.14030022
+-- The CXX compiler identification is AppleClang 14.0.3.14030022
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /Library/Developer/CommandLineTools/usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /Library/Developer/CommandLineTools/usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.8s)
+CMake Error at CMakeLists.txt:22 (add_executable):
+  Cannot find source file:
+
+    PPU466.cpp
+
+
+CMake Error at CMakeLists.txt:22 (add_executable):
+  No SOURCES given to target: game1
+
+
+CMake Generate step failed.  Build files cannot be regenerated correctly.
