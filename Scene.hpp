@@ -55,7 +55,7 @@ struct Scene {
     
     struct Drawable {
         //a 'Drawable' attaches attribute data to a transform:
-        Drawable(Transform *transform_) : transform(transform_) { assert(transform); }
+        explicit Drawable(Transform *transform_) : transform(transform_) { assert(transform); }
         
         Transform *transform;
         
@@ -90,7 +90,7 @@ struct Scene {
     
     struct Camera {
         //a 'Camera' attaches camera data to a transform:
-        Camera(Transform *transform_) : transform(transform_) { assert(transform); }
+        explicit Camera(Transform *transform_) : transform(transform_) { assert(transform); }
         
         Transform *transform;
         //NOTE: cameras are directed along their -z axis
@@ -105,7 +105,7 @@ struct Scene {
     
     struct Light {
         //a 'Light' attaches light data to a transform:
-        Light(Transform *transform_) : transform(transform_) { assert(transform); }
+        explicit Light(Transform *transform_) : transform(transform_) { assert(transform); }
         
         Transform *transform;
         //NOTE: directional, spot, and hemisphere lights are directed along their -z axis
