@@ -1,7 +1,6 @@
 #include "ColorTextureProgram.hpp"
 
 #include "gl_compile_program.hpp"
-#include "gl_errors.hpp"
 
 Load<ColorTextureProgram> color_texture_program(LoadTagEarly);
 

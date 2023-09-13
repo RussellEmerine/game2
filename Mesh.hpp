@@ -32,7 +32,7 @@ struct Mesh {
 struct MeshBuffer {
 	//construct from a file:
 	// note: will throw if file fails to read.
-	MeshBuffer(std::string const &filename);
+	explicit MeshBuffer(std::string const &filename);
 
 	//look up a particular mesh by name:
 	// note: will throw if mesh not found.

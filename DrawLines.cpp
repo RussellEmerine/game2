@@ -37,7 +37,7 @@ static Load<void> setup_buffers(LoadTagDefault, []() {
                 GL_FLOAT, //type
                 GL_FALSE, //normalized
                 sizeof(DrawLines::Vertex), //stride
-                (GLbyte *) 0 + offsetof(DrawLines::Vertex, Position) //offset
+                (GLbyte *) nullptr + offsetof(DrawLines::Vertex, Position) //offset
         );
         glEnableVertexAttribArray(color_program->Position_vec4);
         //[Note that it is okay to bind a vec3 input to a vec4 attribute -- the w component will be filled with 1.0 automatically]
@@ -48,7 +48,7 @@ static Load<void> setup_buffers(LoadTagDefault, []() {
                 GL_UNSIGNED_BYTE, //type
                 GL_TRUE, //normalized
                 sizeof(DrawLines::Vertex), //stride
-                (GLbyte *) 0 + offsetof(DrawLines::Vertex, Color) //offset
+                (GLbyte *) nullptr + offsetof(DrawLines::Vertex, Color) //offset
         );
         glEnableVertexAttribArray(color_program->Color_vec4);
         

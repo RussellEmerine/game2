@@ -6,7 +6,7 @@
 Scene::Drawable::Pipeline lit_color_texture_program_pipeline;
 
 Load<LitColorTextureProgram> lit_color_texture_program(LoadTagEarly, []() -> LitColorTextureProgram const * {
-    LitColorTextureProgram *ret = new LitColorTextureProgram();
+    auto *ret = new LitColorTextureProgram();
     
     //----- build the pipeline template -----
     lit_color_texture_program_pipeline.program = ret->program;

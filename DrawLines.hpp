@@ -16,7 +16,7 @@
 
 struct DrawLines {
     //Start drawing; will remember world_to_clip matrix:
-    DrawLines(glm::mat4 const &world_to_clip);
+    explicit DrawLines(glm::mat4 const &world_to_clip);
     
     //draw a single line from a to b (in world space):
     void draw(glm::vec3 const &a, glm::vec3 const &b, glm::u8vec4 const &color = glm::u8vec4(0xff));

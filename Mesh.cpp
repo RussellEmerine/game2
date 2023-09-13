@@ -1,8 +1,6 @@
 #include "Mesh.hpp"
 #include "read_write_chunk.hpp"
 
-#include <glm/glm.hpp>
-
 #include <stdexcept>
 #include <fstream>
 #include <iostream>
@@ -16,7 +14,7 @@ MeshBuffer::MeshBuffer(std::string const &filename) {
     
     std::ifstream file(filename, std::ios::binary);
     
-    GLuint total = 0;
+    GLuint total;
     
     struct Vertex {
         glm::vec3 Position;
@@ -25,7 +23,7 @@ MeshBuffer::MeshBuffer(std::string const &filename) {
         glm::vec2 TexCoord;
     };
     static_assert(sizeof(Vertex) == 3 * 4 + 3 * 4 + 4 * 1 + 2 * 4, "Vertex is packed.");
-    std::vector <Vertex> data;
+    std::vector<Vertex> data;
     
     //read + upload data chunk:
     if (filename.size() >= 5 && filename.substr(filename.size() - 5) == ".pnct") {
@@ -57,7 +55,7 @@ MeshBuffer::MeshBuffer(std::string const &filename) {
         };
         static_assert(sizeof(IndexEntry) == 16, "Index entry should be packed");
         
-        std::vector <IndexEntry> index;
+        std::vector<IndexEntry> index;
         read_chunk(file, "idx0", &index);
         
         for (auto const &entry: index) {
@@ -78,8 +76,9 @@ MeshBuffer::MeshBuffer(std::string const &filename) {
             }
             bool inserted = meshes.insert(std::make_pair(name, mesh)).second;
             if (!inserted) {
-                std::cerr << "WARNING: mesh name '" + name + "' in filename '" + filename +
-                             "' collides with existing mesh." << std::endl;
+                std::cerr << "WARNING: mesh name '" << name
+                          << "' in filename '" << filename
+                          << "' collides with existing mesh." << std::endl;
             }
         }
     }
@@ -114,14 +113,14 @@ GLuint MeshBuffer::make_vao_for_program(GLuint program) const {
     glBindVertexArray(vao);
     
     //Try to bind all attributes in this buffer:
-    std::set <GLuint> bound;
+    std::set<GLuint> bound;
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     auto bind_attribute = [&](char const *name, MeshBuffer::Attrib const &attrib) {
         if (attrib.size == 0) return; //don't bind empty attribs
         GLint location = glGetAttribLocation(program, name);
         if (location == -1) return; //can't bind missing attribs
         glVertexAttribPointer(location, attrib.size, attrib.type, attrib.normalized, attrib.stride,
-                              (GLbyte *) 0 + attrib.offset);
+                              (GLbyte *) nullptr + attrib.offset);
         glEnableVertexAttribArray(location);
         bound.insert(location);
     };
@@ -140,7 +139,7 @@ GLuint MeshBuffer::make_vao_for_program(GLuint program) const {
         GLchar name[100];
         GLint size = 0;
         GLenum type = 0;
-        glGetActiveAttrib(program, i, 100, NULL, &size, &type, name);
+        glGetActiveAttrib(program, i, 100, nullptr, &size, &type, name);
         name[99] = '\0';
         GLint location = glGetAttribLocation(program, name);
         if (!bound.count(GLuint(location))) {

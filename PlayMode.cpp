@@ -10,7 +10,6 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include <random>
 
 GLuint hexapod_meshes_for_lit_color_texture_program = 0;
 Load<MeshBuffer> hexapod_meshes(LoadTagDefault, []() -> MeshBuffer const * {
@@ -20,21 +19,22 @@ Load<MeshBuffer> hexapod_meshes(LoadTagDefault, []() -> MeshBuffer const * {
 });
 
 Load<Scene> hexapod_scene(LoadTagDefault, []() -> Scene const * {
-    return new Scene(data_path("hexapod.scene"),
-                     [&](Scene &scene, Scene::Transform *transform, std::string const &mesh_name) {
-                         Mesh const &mesh = hexapod_meshes->lookup(mesh_name);
-                         
-                         scene.drawables.emplace_back(transform);
-                         Scene::Drawable &drawable = scene.drawables.back();
-                         
-                         drawable.pipeline = lit_color_texture_program_pipeline;
-                         
-                         drawable.pipeline.vao = hexapod_meshes_for_lit_color_texture_program;
-                         drawable.pipeline.type = mesh.type;
-                         drawable.pipeline.start = mesh.start;
-                         drawable.pipeline.count = mesh.count;
-                         
-                     });
+    return new Scene(
+            data_path("hexapod.scene"),
+            [&](Scene &scene, Scene::Transform *transform, std::string const &mesh_name) {
+                Mesh const &mesh = hexapod_meshes->lookup(mesh_name);
+                
+                scene.drawables.emplace_back(transform);
+                Scene::Drawable &drawable = scene.drawables.back();
+                
+                drawable.pipeline = lit_color_texture_program_pipeline;
+                
+                drawable.pipeline.vao = hexapod_meshes_for_lit_color_texture_program;
+                drawable.pipeline.type = mesh.type;
+                drawable.pipeline.start = mesh.start;
+                drawable.pipeline.count = mesh.count;
+                
+            });
 });
 
 PlayMode::PlayMode() : scene(*hexapod_scene) {
@@ -59,8 +59,7 @@ PlayMode::PlayMode() : scene(*hexapod_scene) {
     camera = &scene.cameras.front();
 }
 
-PlayMode::~PlayMode() {
-}
+PlayMode::~PlayMode() = default;
 
 bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size) {
     
@@ -107,14 +106,33 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
     } else if (evt.type == SDL_MOUSEMOTION) {
         if (SDL_GetRelativeMouseMode() == SDL_TRUE) {
             glm::vec2 motion = glm::vec2(
-                    evt.motion.xrel / float(window_size.y),
-                    -evt.motion.yrel / float(window_size.y)
+                    float(evt.motion.xrel) / float(window_size.y),
+                    -float(evt.motion.yrel) / float(window_size.y)
             );
-            camera->transform->rotation = glm::normalize(
-                    camera->transform->rotation
-                    * glm::angleAxis(-motion.x * camera->fovy, glm::vec3(0.0f, 1.0f, 0.0f))
-                    * glm::angleAxis(motion.y * camera->fovy, glm::vec3(1.0f, 0.0f, 0.0f))
-            );
+            
+            // TODO: fine-tune the rotation speed
+            
+            /*
+             * NOTE: every documentation source I've found, including glm's source internal function names, says pitch,
+             * yaw, roll. However, this is what works, and it seems to be pitch, roll, yaw, unless I misunderstand what
+             * those words mean. No idea why, but it works so it works.
+             *
+             * Also, as of Sep 12 2023, https://glm.g-truc.net/0.9.0/api/a00184.html totally spells it "eular".
+             */
+            // gives Euler angles in radians: pitch, roll, yaw, or "pitch, yaw, roll" as they say
+            glm::vec3 angles = glm::eulerAngles(camera->transform->rotation);
+            std::cerr << angles.x << " " << angles.y << " " << angles.z << std::endl;
+            // change and bound the pitch
+            angles.x = std::min(std::max(angles.x + motion.y, glm::pi<float>() * 1 / 12), glm::pi<float>() * 11 / 12);
+            // change the yaw
+            angles.z -= motion.x;
+            // roll is always zero
+            // TODO: When a scene is loaded in, the camera may not always have roll zero. Find and correct.
+            // The fix is needed because wasd will misbehave before the first mouse movement.
+            angles.y = 0;
+            // make a quaternion from the new camera direction
+            // this constructor uses the Euler angles
+            camera->transform->rotation = glm::qua(angles);
             return true;
         }
     }
@@ -146,21 +164,28 @@ void PlayMode::update(float elapsed) {
         
         //combine inputs into a move:
         constexpr float PlayerSpeed = 30.0f;
-        glm::vec2 move = glm::vec2(0.0f);
+        auto move = glm::vec3(0.0f);
+        // using z here because camera points in negative z
+        if (down.pressed && !up.pressed) move.z = 1.0f;
+        if (!down.pressed && up.pressed) move.z = -1.0f;
+        // using x here for horizontal from the camera's perspective
         if (left.pressed && !right.pressed) move.x = -1.0f;
         if (!left.pressed && right.pressed) move.x = 1.0f;
-        if (down.pressed && !up.pressed) move.y = -1.0f;
-        if (!down.pressed && up.pressed) move.y = 1.0f;
         
-        //make it so that moving diagonally doesn't go faster:
-        if (move != glm::vec2(0.0f)) move = glm::normalize(move) * PlayerSpeed * elapsed;
-        
-        glm::mat4x3 frame = camera->transform->make_local_to_parent();
-        glm::vec3 frame_right = frame[0];
-        //glm::vec3 up = frame[1];
-        glm::vec3 frame_forward = -frame[2];
-        
-        camera->transform->position += move.x * frame_right + move.y * frame_forward;
+        // rotate the movement towards where the camera points
+        move = camera->transform->rotation * move;
+        // and make it in the horizontal plane after rotation
+        move.z = 0.0f;
+        // scale it for constant speed
+        if (move != glm::vec3(0.0f, 0.0f, 0.0f)) move = glm::normalize(move) * PlayerSpeed * elapsed;
+
+//        glm::mat4x3 frame = camera->transform->make_local_to_parent();
+//        glm::vec3 frame_right = glm::vec3(frame[0].x, frame[0].y, 0);
+//        //glm::vec3 up = frame[1];
+//        glm::vec3 frame_forward = -glm::vec3(frame[2].x, frame[2].y, 0);
+//
+//        camera->transform->position += move.x * frame_right + move.y * frame_forward;
+        camera->transform->position += move;
     }
     
     //reset button press counters:
@@ -177,9 +202,11 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
     //set up light type and position for lit_color_texture_program:
     // TODO: consider using the Light(s) in the scene to do this
     glUseProgram(lit_color_texture_program->program);
-    glUniform1i(lit_color_texture_program->LIGHT_TYPE_int, 1);
-    glUniform3fv(lit_color_texture_program->LIGHT_DIRECTION_vec3, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, -1.0f)));
-    glUniform3fv(lit_color_texture_program->LIGHT_ENERGY_vec3, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 0.95f)));
+    glUniform1i((GLint) lit_color_texture_program->LIGHT_TYPE_int, 1);
+    glUniform3fv((GLint) lit_color_texture_program->LIGHT_DIRECTION_vec3, 1,
+                 glm::value_ptr(glm::vec3(0.0f, 0.0f, -1.0f)));
+    glUniform3fv((GLint) lit_color_texture_program->LIGHT_ENERGY_vec3, 1,
+                 glm::value_ptr(glm::vec3(1.0f, 1.0f, 0.95f)));
     glUseProgram(0);
     
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
@@ -208,7 +235,7 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
                         glm::vec3(-aspect + 0.1f * H, -1.0 + 0.1f * H, 0.0),
                         glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
                         glm::u8vec4(0x00, 0x00, 0x00, 0x00));
-        float ofs = 2.0f / drawable_size.y;
+        float ofs = 2.0f / (float) drawable_size.y;
         lines.draw_text("Mouse motion rotates camera; WASD moves; escape ungrabs mouse",
                         glm::vec3(-aspect + 0.1f * H + ofs, -1.0 + 0.1f * H + ofs, 0.0),
                         glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),

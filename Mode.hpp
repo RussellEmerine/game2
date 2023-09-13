@@ -6,7 +6,7 @@
 #include <memory>
 
 struct Mode : std::enable_shared_from_this<Mode> {
-    virtual ~Mode() {}
+    virtual ~Mode() = default;
     
     //handle_event is called when new mouse or keyboard events are received:
     // (note that this might be many times per frame or never)
@@ -22,8 +22,8 @@ struct Mode : std::enable_shared_from_this<Mode> {
     
     //Mode::current is the Mode to which events are dispatched.
     // use 'set_current' to change the current Mode (e.g., to switch to a menu)
-    static std::shared_ptr <Mode> current;
+    static std::shared_ptr<Mode> current;
     
-    static void set_current(std::shared_ptr <Mode> const &);
+    static void set_current(std::shared_ptr<Mode> const &);
 };
 

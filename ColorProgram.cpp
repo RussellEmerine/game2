@@ -1,7 +1,6 @@
 #include "ColorProgram.hpp"
 
 #include "gl_compile_program.hpp"
-#include "gl_errors.hpp"
 
 Load<ColorProgram> color_program(LoadTagEarly);
 

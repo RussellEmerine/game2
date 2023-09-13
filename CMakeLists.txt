@@ -19,34 +19,48 @@ include_directories(
         ../nest-libs/macos/zlib/include
 )
 
-add_executable(game1
-        data_path.cpp
-        data_path.hpp
+add_executable(
+        ColorProgram.hpp
+        ColorProgram.cpp
+        ColorTextureProgram.cpp
+        ColorTextureProgram.hpp
+        DrawLines.cpp
+        DrawLines.hpp
         GL.cpp
         GL.hpp
+        LitColorTextureProgram.cpp
+        LitColorTextureProgram.hpp
+        Load.cpp
+        Load.hpp
+        Mesh.cpp
+        Mesh.hpp
+        Mode.cpp
+        Mode.hpp
+        PathFont-font.cpp
+        PathFont.cpp
+        PathFont.hpp
+        PlayMode.cpp
+        PlayMode.hpp
+        Scene.cpp
+        Scene.hpp
+        ShowMeshesMode.cpp
+        ShowMeshesMode.hpp
+        ShowMeshesProgram.cpp
+        ShowMeshesProgram.hpp
+        ShowSceneMode.cpp
+        ShowSceneMode.hpp
+        ShowSceneProgram.cpp
+        ShowSceneProgram.hpp
+        data_path.cpp
+        data_path.hpp
         gl_compile_program.cpp
         gl_compile_program.hpp
         gl_errors.hpp
         glcorearb.h
-        Load.cpp
-        Load.hpp
         load_save_png.cpp
         load_save_png.hpp
         main.cpp
-        Mode.cpp
-        Mode.hpp
-        PlayMode.cpp
-        PlayMode.hpp
-        PPU466.cpp
-        PPU466.hpp
         read_write_chunk.hpp
-        util.hpp
-        util.cpp
-        Ball.cpp
-        Ball.hpp
-        Level.cpp
-        Level.hpp
-        SelectMode.cpp
-        SelectMode.hpp
-        WinMode.cpp
-        WinMode.hpp)
+        show-meshes.cpp
+        show-scene.cpp
+)
