@@ -1,7 +1,7 @@
 # This cmake file does not actually build anything. It is only for CLion to understand imports.
 
 cmake_minimum_required(VERSION 3.26)
-project(game1)
+project(game2)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -63,4 +63,7 @@ add_executable(
         read_write_chunk.hpp
         show-meshes.cpp
         show-scene.cpp
+        Garden.cpp
+        Garden.hpp
+        Flower.hpp
 )

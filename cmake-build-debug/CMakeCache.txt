@@ -157,7 +157,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=game1
+CMAKE_PROJECT_NAME:STATIC=game2
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/Library/Developer/CommandLineTools/usr/bin/ranlib
@@ -232,6 +232,15 @@ game1_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 game1_SOURCE_DIR:STATIC=/Users/russell/15466/game2
+
+//Value Computed by CMake
+game2_BINARY_DIR:STATIC=/Users/russell/15466/game2/cmake-build-debug
+
+//Value Computed by CMake
+game2_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+game2_SOURCE_DIR:STATIC=/Users/russell/15466/game2
 
 
 ########################

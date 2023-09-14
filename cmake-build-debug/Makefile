@@ -225,6 +225,30 @@ GL.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ColorProgram.hpp.dir/build.make CMakeFiles/ColorProgram.hpp.dir/GL.cpp.s
 .PHONY : GL.cpp.s
 
+Garden.o: Garden.cpp.o
+.PHONY : Garden.o
+
+# target to build an object file
+Garden.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ColorProgram.hpp.dir/build.make CMakeFiles/ColorProgram.hpp.dir/Garden.cpp.o
+.PHONY : Garden.cpp.o
+
+Garden.i: Garden.cpp.i
+.PHONY : Garden.i
+
+# target to preprocess a source file
+Garden.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ColorProgram.hpp.dir/build.make CMakeFiles/ColorProgram.hpp.dir/Garden.cpp.i
+.PHONY : Garden.cpp.i
+
+Garden.s: Garden.cpp.s
+.PHONY : Garden.s
+
+# target to generate assembly for a file
+Garden.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ColorProgram.hpp.dir/build.make CMakeFiles/ColorProgram.hpp.dir/Garden.cpp.s
+.PHONY : Garden.cpp.s
+
 LitColorTextureProgram.o: LitColorTextureProgram.cpp.o
 .PHONY : LitColorTextureProgram.o
 
@@ -678,6 +702,9 @@ help:
 	@echo "... GL.o"
 	@echo "... GL.i"
 	@echo "... GL.s"
+	@echo "... Garden.o"
+	@echo "... Garden.i"
+	@echo "... Garden.s"
 	@echo "... LitColorTextureProgram.o"
 	@echo "... LitColorTextureProgram.i"
 	@echo "... LitColorTextureProgram.s"

@@ -7,6 +7,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/ColorProgram.hpp.dir/DrawLines.cpp.o.d"
   "CMakeFiles/ColorProgram.hpp.dir/GL.cpp.o"
   "CMakeFiles/ColorProgram.hpp.dir/GL.cpp.o.d"
+  "CMakeFiles/ColorProgram.hpp.dir/Garden.cpp.o"
+  "CMakeFiles/ColorProgram.hpp.dir/Garden.cpp.o.d"
   "CMakeFiles/ColorProgram.hpp.dir/LitColorTextureProgram.cpp.o"
   "CMakeFiles/ColorProgram.hpp.dir/LitColorTextureProgram.cpp.o.d"
   "CMakeFiles/ColorProgram.hpp.dir/Load.cpp.o"

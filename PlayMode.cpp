@@ -7,44 +7,20 @@
 #include "Load.hpp"
 #include "gl_errors.hpp"
 #include "data_path.hpp"
+#include "Garden.hpp"
 
 #include <glm/gtc/type_ptr.hpp>
 
 // TODO: add flower mesh data
 // TODO: add tangram mesh data
 
-GLuint garden_meshes_for_lit_color_texture_program = 0;
-Load<MeshBuffer> garden_meshes(LoadTagDefault, []() -> MeshBuffer const * {
-    MeshBuffer const *ret = new MeshBuffer(data_path("garden.pnct"));
-    garden_meshes_for_lit_color_texture_program = ret->make_vao_for_program(lit_color_texture_program->program);
-    return ret;
-});
-
-Load<Scene> garden_scene(LoadTagDefault, []() -> Scene const * {
-    return new Scene(
-            data_path("garden.scene"),
-            [&](Scene &scene, Scene::Transform *transform, std::string const &mesh_name) {
-                Mesh const &mesh = garden_meshes->lookup(mesh_name);
-                
-                scene.drawables.emplace_back(transform);
-                Scene::Drawable &drawable = scene.drawables.back();
-                
-                drawable.pipeline = lit_color_texture_program_pipeline;
-                
-                drawable.pipeline.vao = garden_meshes_for_lit_color_texture_program;
-                drawable.pipeline.type = mesh.type;
-                drawable.pipeline.start = mesh.start;
-                drawable.pipeline.count = mesh.count;
-                
-            });
-});
-
-PlayMode::PlayMode() : scene(*garden_scene) {
+PlayMode::PlayMode() : garden(*loaded_garden) {
     //get pointer to camera for convenience:
-    if (scene.cameras.size() != 1)
+    if (garden.scene.cameras.size() != 1)
         throw std::runtime_error(
-                "Expecting scene to have exactly one camera, but it has " + std::to_string(scene.cameras.size()));
-    camera = &scene.cameras.front();
+                "Expecting scene to have exactly one camera, but it has " +
+                std::to_string(garden.scene.cameras.size()));
+    camera = &garden.scene.cameras.front();
 }
 
 PlayMode::~PlayMode() = default;
@@ -132,7 +108,7 @@ void PlayMode::update(float elapsed) {
     {
         
         //combine inputs into a move:
-        constexpr float PlayerSpeed = 30.0f;
+        constexpr float PlayerSpeed = 5.0f;
         auto move = glm::vec3(0.0f);
         // using z here because camera points in negative z
         if (down.pressed && !up.pressed) move.z = 1.0f;
@@ -184,7 +160,7 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
     
     GL_ERRORS(); //print any errors produced by this setup code
     
-    scene.draw(*camera);
+    garden.scene.draw(*camera);
     
     { //use DrawLines to overlay some text:
         glDisable(GL_DEPTH_TEST);

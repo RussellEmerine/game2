@@ -1,5 +1,5 @@
 #include "Mode.hpp"
-
+#include "Garden.hpp"
 #include "Scene.hpp"
 
 #include <glm/glm.hpp>
@@ -28,7 +28,7 @@ struct PlayMode : Mode {
     } left, right, down, up;
     
     //local copy of the game scene (so code can change it during gameplay):
-    Scene scene;
+    Garden garden;
     
     //camera:
     Scene::Camera *camera = nullptr;

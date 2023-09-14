@@ -120,10 +120,22 @@
 		<Unit filename="/Users/russell/15466/game2/DrawLines.hpp">
 			<Option target="ColorProgram.hpp"/>
 		</Unit>
+		<Unit filename="/Users/russell/15466/game2/Flower.cpp">
+			<Option target="ColorProgram.hpp"/>
+		</Unit>
+		<Unit filename="/Users/russell/15466/game2/Flower.hpp">
+			<Option target="ColorProgram.hpp"/>
+		</Unit>
 		<Unit filename="/Users/russell/15466/game2/GL.cpp">
 			<Option target="ColorProgram.hpp"/>
 		</Unit>
 		<Unit filename="/Users/russell/15466/game2/GL.hpp">
+			<Option target="ColorProgram.hpp"/>
+		</Unit>
+		<Unit filename="/Users/russell/15466/game2/Garden.cpp">
+			<Option target="ColorProgram.hpp"/>
+		</Unit>
+		<Unit filename="/Users/russell/15466/game2/Garden.hpp">
 			<Option target="ColorProgram.hpp"/>
 		</Unit>
 		<Unit filename="/Users/russell/15466/game2/LitColorTextureProgram.cpp">

@@ -81,12 +81,12 @@ clean: CMakeFiles/ColorProgram.hpp.dir/clean
 CMakeFiles/ColorProgram.hpp.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ColorProgram.hpp.dir/build.make CMakeFiles/ColorProgram.hpp.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ColorProgram.hpp.dir/build.make CMakeFiles/ColorProgram.hpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/russell/15466/game2/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 "Built target ColorProgram.hpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/russell/15466/game2/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24 "Built target ColorProgram.hpp"
 .PHONY : CMakeFiles/ColorProgram.hpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ColorProgram.hpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/russell/15466/game2/cmake-build-debug/CMakeFiles 23
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/russell/15466/game2/cmake-build-debug/CMakeFiles 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ColorProgram.hpp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/russell/15466/game2/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/ColorProgram.hpp.dir/rule
