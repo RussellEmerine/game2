@@ -7,3 +7,5 @@ Authors to credit:
  pool.blend -- Jim McCann
  sphere-roller.blend -- Jim McCann
  sphere-world.blend -- Jim McCann
+
+// TODO: delete the above files

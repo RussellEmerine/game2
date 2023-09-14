@@ -34,14 +34,14 @@ Load<Garden> loaded_garden(LoadTagDefault, []() -> Garden const * {
                 pipeline.count = mesh.count;
                 
                 if (transform->name == "Small Tulip") {
-                    garden->flower_pipelines[Flower::Tulip][0] = pipeline;
-                    garden->flower_transforms[Flower::Tulip][0] = *transform;
+                    garden->flower_pipelines[Flower::Tulip][Maturity::Small] = pipeline;
+                    garden->flower_transforms[Flower::Tulip][Maturity::Small] = *transform;
                 } else if (transform->name == "Medium Tulip") {
-                    garden->flower_pipelines[Flower::Tulip][1] = pipeline;
-                    garden->flower_transforms[Flower::Tulip][1] = *transform;
+                    garden->flower_pipelines[Flower::Tulip][Maturity::Medium] = pipeline;
+                    garden->flower_transforms[Flower::Tulip][Maturity::Medium] = *transform;
                 } else if (transform->name == "Big Tulip") {
-                    garden->flower_pipelines[Flower::Tulip][2] = pipeline;
-                    garden->flower_transforms[Flower::Tulip][2] = *transform;
+                    garden->flower_pipelines[Flower::Tulip][Maturity::Big] = pipeline;
+                    garden->flower_transforms[Flower::Tulip][Maturity::Big] = *transform;
                 } else {
                     scene.drawables.emplace_back(transform);
                     scene.drawables.back().pipeline = pipeline;
@@ -68,12 +68,15 @@ void Garden::remove_flower(size_t row, size_t col) {
     });
 }
 
-void Garden::place_flower(Flower flower, size_t size, size_t row, size_t col) {
+void Garden::place_flower(Flower flower, Maturity maturity, size_t row, size_t col) {
     remove_flower(row, col);
-    scene.drawables.emplace_back(&grid_positions[row][col]);
-    scene.drawables.back().pipeline = flower_pipelines[flower][size];
-    scene.drawables.back().transform->rotation = flower_transforms[flower][size].rotation;
-    scene.drawables.back().transform->scale = flower_transforms[flower][size].scale;
+    // If it is a seed, then don't actually draw anything
+    if (maturity != Maturity::Seed) {
+        scene.drawables.emplace_back(&grid_positions[row][col]);
+        scene.drawables.back().pipeline = flower_pipelines[flower][maturity];
+        scene.drawables.back().transform->rotation = flower_transforms[flower][maturity].rotation;
+        scene.drawables.back().transform->scale = flower_transforms[flower][maturity].scale;
+    }
 }
 
 std::string Garden::flower_drawable_name(size_t row, size_t col) {

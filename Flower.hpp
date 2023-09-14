@@ -11,3 +11,14 @@ enum Flower : size_t {
     Tulip,
     FlowerCount
 };
+
+/*
+ * An enum that represents how mature a flower is.
+ */
+enum Maturity : size_t {
+    Seed,
+    Small,
+    Medium,
+    Big,
+    MaturityCount
+};

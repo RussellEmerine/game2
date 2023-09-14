@@ -47,7 +47,7 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
         } else if (evt.key.keysym.sym == SDLK_p) {
             for (size_t i = 0; i < Garden::SIZE; i++) {
                 for (size_t j = 0; j < Garden::SIZE; j++) {
-                    garden.place_flower(Tulip, 1, i, j);
+                    garden.place_flower(Tulip, (Maturity) ((i + j) % MaturityCount), i, j);
                 }
             }
         } else if (evt.key.keysym.sym == SDLK_q) {

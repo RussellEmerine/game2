@@ -15,11 +15,14 @@ struct Garden {
     Scene scene;
     
     // Meshes for the flowers, small, medium, and big versions in that order.
-    std::array<std::array<Scene::Drawable::Pipeline, 3>, Flower::FlowerCount> flower_pipelines;
+    // `Seed` size variant will be explicitly ignored in code.
+    std::array<std::array<Scene::Drawable::Pipeline, MaturityCount>, Flower::FlowerCount> flower_pipelines;
     // Transforms for the flowers, small, medium, and big.
     // Not pointed to, just initialized on construction and copied from.
     // The rotation and scale components here are important, but the position should be ignored.
+    // `Seed` size variant will be explicitly ignored in code.
     std::array<std::array<Scene::Transform, 3>, Flower::FlowerCount> flower_transforms{};
+    
     // Just the centers of squares of the grid, filled out on construction.
     // The flowers on the grid have `Transform` pointers, this is what they point to.
     // The position component here is important, but the rotation and scale should be overwritten.
@@ -34,7 +37,7 @@ struct Garden {
     
     void remove_flower(size_t row, size_t col);
     
-    void place_flower(Flower flower, size_t size, size_t row, size_t col);
+    void place_flower(Flower flower, Maturity maturity, size_t row, size_t col);
     
     /*
      * Gets the string that the
