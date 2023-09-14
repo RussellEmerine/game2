@@ -44,19 +44,6 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
             down.downs += 1;
             down.pressed = true;
             return true;
-        } else if (evt.key.keysym.sym == SDLK_p) {
-            // TODO: remove the p and q triggers, they are for testing
-            for (size_t i = 0; i < Garden::SIZE; i++) {
-                for (size_t j = 0; j < Garden::SIZE; j++) {
-                    garden.place_flower(Tulip, (Maturity) ((i + j) % MaturityCount), i, j);
-                }
-            }
-        } else if (evt.key.keysym.sym == SDLK_q) {
-            static size_t ix = 0;
-            if (ix < Garden::SIZE * Garden::SIZE) {
-                garden.remove_flower(ix / Garden::SIZE, ix % Garden::SIZE);
-                ix++;
-            }
         }
     } else if (evt.type == SDL_KEYUP) {
         if (evt.key.keysym.sym == SDLK_a) {
@@ -109,7 +96,7 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
                     -float(evt.motion.yrel) / float(window_size.y)
             );
             
-            // TODO: fine-tune the rotation speed
+            // rotation speed and fov is a little uncomfortable but whatever
             
             /*
              * NOTE: every documentation source I've found, including glm's source internal function names, says pitch,

@@ -6,7 +6,6 @@
 #include "LitColorTextureProgram.hpp"
 #include "data_path.hpp"
 
-// TODO: add flower mesh data
 // TODO: add tangram mesh data
 
 GLuint garden_meshes_for_lit_color_texture_program = 0;
@@ -22,10 +21,6 @@ Load<Garden> loaded_garden(LoadTagDefault, []() -> Garden const * {
             data_path("garden.scene"),
             [&](Scene &scene, Scene::Transform *transform, std::string const &mesh_name) {
                 Mesh const &mesh = garden_meshes->lookup(mesh_name);
-                
-                // TODO: remove prints
-                fprintf(stderr, "Found mesh with name: %s\n", mesh_name.c_str());
-                fprintf(stderr, "Transform has name: %s\n", transform->name.c_str());
                 
                 Scene::Drawable::Pipeline pipeline = lit_color_texture_program_pipeline;
                 pipeline.vao = garden_meshes_for_lit_color_texture_program;

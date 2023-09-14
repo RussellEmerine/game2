@@ -34,14 +34,18 @@ struct Garden {
     // How much water a square has (use to decide the maturity of the flower).
     std::array<std::array<double, SIZE>, SIZE> water{};
     
-//    // As above, but for unfilled tangrams
-//    std::array<Scene::Drawable::Pipeline, SIZE> unfilled_tangram_pipelines;
-//    std::array<Scene::Transform,
+    /*
+    // As above, for unfilled and filled tangrams
+    // Shouldn't require rotation and scale parts as flower_transforms does
+    // (Maybe flower_transforms doesn't require it either, haven't tested that)
+    std::array<Scene::Transform, SIZE> tangram_positions{};
     
+    // As above, but for unfilled tangrams
+    std::array<Scene::Drawable::Pipeline, SIZE> unfilled_tangram_pipelines;
     
+    // As above, but for filled tangrams
     std::array<Scene::Drawable::Pipeline, SIZE> filled_tangram_pipelines;
-    
-    // TODO: add tangram frames and data
+     */
     
     void remove_flower(size_t row, size_t col);
     
