@@ -22,7 +22,7 @@ struct Garden {
     // Not pointed to, just initialized on construction and copied from.
     // The rotation and scale components here are important, but the position should be ignored.
     // `Seed` size variant will be explicitly ignored in code.
-    std::array<std::array<Scene::Transform, 3>, Flower::FlowerCount> flower_transforms{};
+    std::array<std::array<Scene::Transform, MaturityCount>, Flower::FlowerCount> flower_transforms{};
     
     // Just the centers of squares of the grid, filled out on construction.
     // The flowers on the grid have `Transform` pointers, this is what they point to.
@@ -33,6 +33,13 @@ struct Garden {
     std::array<std::array<Flower, SIZE>, SIZE> flowers{};
     // How much water a square has (use to decide the maturity of the flower).
     std::array<std::array<double, SIZE>, SIZE> water{};
+    
+//    // As above, but for unfilled tangrams
+//    std::array<Scene::Drawable::Pipeline, SIZE> unfilled_tangram_pipelines;
+//    std::array<Scene::Transform,
+    
+    
+    std::array<Scene::Drawable::Pipeline, SIZE> filled_tangram_pipelines;
     
     // TODO: add tangram frames and data
     
