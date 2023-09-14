@@ -1,18 +1,16 @@
+#include <algorithm>
+
 #include "PlayMode.hpp"
 
 #include "LitColorTextureProgram.hpp"
 
 #include "DrawLines.hpp"
 #include "Mesh.hpp"
-#include "Load.hpp"
 #include "gl_errors.hpp"
 #include "data_path.hpp"
 #include "Garden.hpp"
 
 #include <glm/gtc/type_ptr.hpp>
-
-// TODO: add flower mesh data
-// TODO: add tangram mesh data
 
 PlayMode::PlayMode() : garden(*loaded_garden) {
     //get pointer to camera for convenience:

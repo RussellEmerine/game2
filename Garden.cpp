@@ -6,6 +6,9 @@
 #include "LitColorTextureProgram.hpp"
 #include "data_path.hpp"
 
+// TODO: add flower mesh data
+// TODO: add tangram mesh data
+
 GLuint garden_meshes_for_lit_color_texture_program = 0;
 Load<MeshBuffer> garden_meshes(LoadTagDefault, []() -> MeshBuffer const * {
     MeshBuffer const *ret = new MeshBuffer(data_path("garden.pnct"));

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include "Scene.hpp"
 #include "Flower.hpp"
 #include "Mesh.hpp"

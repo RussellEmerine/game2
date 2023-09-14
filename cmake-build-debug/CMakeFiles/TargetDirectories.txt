@@ -1,3 +1,0 @@
-/Users/russell/15466/game2/cmake-build-debug/CMakeFiles/ColorProgram.hpp.dir
-/Users/russell/15466/game2/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/russell/15466/game2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
