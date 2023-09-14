@@ -82,3 +82,35 @@ void Garden::place_flower(Flower flower, Maturity maturity, size_t row, size_t c
 std::string Garden::flower_drawable_name(size_t row, size_t col) {
     return "Flower:" + std::to_string(row) + ":" + std::to_string(col);
 }
+
+void Garden::add_water(double delta, size_t row, size_t col) {
+    double old_water = water[row][col];
+    double new_water = old_water + delta;
+    // This could be a loop but it's easier to think about the edge cases when it's unrolled
+    if (old_water < 0.25 && 0.25 <= new_water) {
+        place_flower(flowers[row][col], Maturity::Small, row, col);
+    } else if (old_water < 0.5 && 0.5 <= new_water) {
+        place_flower(flowers[row][col], Maturity::Medium, row, col);
+    } else if (old_water < 0.75 && 0.75 <= new_water) {
+        place_flower(flowers[row][col], Maturity::Big, row, col);
+    } else if (1 <= new_water) {
+        new_water = 1;
+    }
+    water[row][col] = new_water;
+}
+
+void Garden::collect(size_t row, size_t col) {
+    // TODO: add collected tangram pieces to stash
+    remove_flower(row, col);
+    flowers[row][col] = (Flower) ((size_t) rand() % Flower::FlowerCount);
+    water[row][col] = 0;
+}
+
+glm::size2 Garden::find_grid_square(double x, double y) {
+    if (x < -10 || 10 < x || y < -10 || 10 < y) {
+        return {SIZE, SIZE};
+    } else {
+        return {(size_t) (x + 10), (size_t) (y + 10)};
+    }
+}
+

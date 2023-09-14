@@ -45,6 +45,7 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
             down.pressed = true;
             return true;
         } else if (evt.key.keysym.sym == SDLK_p) {
+            // TODO: remove the p and q triggers, they are for testing
             for (size_t i = 0; i < Garden::SIZE; i++) {
                 for (size_t j = 0; j < Garden::SIZE; j++) {
                     garden.place_flower(Tulip, (Maturity) ((i + j) % MaturityCount), i, j);
@@ -74,6 +75,31 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
     } else if (evt.type == SDL_MOUSEBUTTONDOWN) {
         if (SDL_GetRelativeMouseMode() == SDL_FALSE) {
             SDL_SetRelativeMouseMode(SDL_TRUE);
+            return true;
+        } else if (evt.button.button == SDL_BUTTON_LEFT) {
+            mouse.downs += 1;
+            mouse.pressed = true;
+            return true;
+        } else if (evt.button.button == SDL_BUTTON_RIGHT) {
+            // This is duplicate code but whatevs
+            // as above, use z because camera points in negative z
+            auto move = glm::vec3(0.0f, 0.0f, -1.0f);
+            move = camera->transform->rotation * move;
+            move.z = 0.0f;
+            // 0.8 is chosen so that you never water a plant that is physically behind you
+            if (move != glm::vec3(0.0f, 0.0f, 0.0f)) move = 0.8f * glm::normalize(move);
+            glm::size2 rowcol = Garden::find_grid_square(
+                    camera->transform->position.x + move.x,
+                    camera->transform->position.y + move.y);
+            if (rowcol != glm::size2(Garden::SIZE, Garden::SIZE)) {
+                size_t row = rowcol.x, col = rowcol.y;
+                // it takes ten seconds to water
+                garden.collect(row, col);
+            }
+        }
+    } else if (evt.type == SDL_MOUSEBUTTONUP) {
+        if (evt.button.button == SDL_BUTTON_LEFT) {
+            mouse.pressed = false;
             return true;
         }
     } else if (evt.type == SDL_MOUSEMOTION) {
@@ -139,11 +165,31 @@ void PlayMode::update(float elapsed) {
         camera->transform->position.y = std::clamp(camera->transform->position.y, -10.0f, 10.0f);
     }
     
+    // do watering and collecting
+    if (mouse.pressed) {
+        // water a little in front of yourself, instead of directly underneath
+        // as above, use z because camera points in negative z
+        auto move = glm::vec3(0.0f, 0.0f, -1.0f);
+        move = camera->transform->rotation * move;
+        move.z = 0.0f;
+        // 0.8 is chosen so that you never water a plant that is physically behind you
+        if (move != glm::vec3(0.0f, 0.0f, 0.0f)) move = 0.8f * glm::normalize(move);
+        glm::size2 rowcol = Garden::find_grid_square(
+                camera->transform->position.x + move.x,
+                camera->transform->position.y + move.y);
+        if (rowcol != glm::size2(Garden::SIZE, Garden::SIZE)) {
+            size_t row = rowcol.x, col = rowcol.y;
+            // it takes ten seconds to water
+            garden.add_water(elapsed * 0.1f, row, col);
+        }
+    }
+    
     //reset button press counters:
     left.downs = 0;
     right.downs = 0;
     up.downs = 0;
     down.downs = 0;
+    mouse.downs = 0;
 }
 
 void PlayMode::draw(glm::uvec2 const &drawable_size) {

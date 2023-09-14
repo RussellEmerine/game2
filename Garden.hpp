@@ -2,6 +2,7 @@
 
 #include <array>
 #include <string>
+#include <glm/gtx/std_based_type.hpp>
 
 #include "Scene.hpp"
 #include "Flower.hpp"
@@ -39,10 +40,17 @@ struct Garden {
     
     void place_flower(Flower flower, Maturity maturity, size_t row, size_t col);
     
-    /*
-     * Gets the string that the
-     */
     static std::string flower_drawable_name(size_t row, size_t col);
+    
+    void add_water(double delta, size_t row, size_t col);
+    
+    void collect(size_t row, size_t col);
+    
+    /*
+     * Finds the (row, col) corresponding to the x and y coordinates.
+     * If it is out of bounds, returns (SIZE, SIZE)
+     */
+    static glm::size2 find_grid_square(double x, double y);
 };
 
 extern Load<Garden> loaded_garden;
