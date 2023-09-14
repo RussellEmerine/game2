@@ -9,6 +9,7 @@
  */
 enum Flower : size_t {
     Tulip,
+    Orchid,
     FlowerCount
 };
 

@@ -42,6 +42,15 @@ Load<Garden> loaded_garden(LoadTagDefault, []() -> Garden const * {
                 } else if (transform->name == "Big Tulip") {
                     garden->flower_pipelines[Flower::Tulip][Maturity::Big] = pipeline;
                     garden->flower_transforms[Flower::Tulip][Maturity::Big] = *transform;
+                } else if (transform->name == "Small Orchid") {
+                    garden->flower_pipelines[Flower::Orchid][Maturity::Small] = pipeline;
+                    garden->flower_transforms[Flower::Orchid][Maturity::Small] = *transform;
+                } else if (transform->name == "Medium Orchid") {
+                    garden->flower_pipelines[Flower::Orchid][Maturity::Medium] = pipeline;
+                    garden->flower_transforms[Flower::Orchid][Maturity::Medium] = *transform;
+                } else if (transform->name == "Big Orchid") {
+                    garden->flower_pipelines[Flower::Orchid][Maturity::Big] = pipeline;
+                    garden->flower_transforms[Flower::Orchid][Maturity::Big] = *transform;
                 } else {
                     scene.drawables.emplace_back(transform);
                     scene.drawables.back().pipeline = pipeline;
