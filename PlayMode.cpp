@@ -24,7 +24,6 @@ PlayMode::PlayMode() : garden(*loaded_garden) {
 PlayMode::~PlayMode() = default;
 
 bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size) {
-    
     if (evt.type == SDL_KEYDOWN) {
         if (evt.key.keysym.sym == SDLK_ESCAPE) {
             SDL_SetRelativeMouseMode(SDL_FALSE);
@@ -45,6 +44,18 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
             down.downs += 1;
             down.pressed = true;
             return true;
+        } else if (evt.key.keysym.sym == SDLK_p) {
+            for (size_t i = 0; i < Garden::SIZE; i++) {
+                for (size_t j = 0; j < Garden::SIZE; j++) {
+                    garden.place_flower(Tulip, 1, i, j);
+                }
+            }
+        } else if (evt.key.keysym.sym == SDLK_q) {
+            static size_t ix = 0;
+            if (ix < Garden::SIZE * Garden::SIZE) {
+                garden.remove_flower(ix / Garden::SIZE, ix % Garden::SIZE);
+                ix++;
+            }
         }
     } else if (evt.type == SDL_KEYUP) {
         if (evt.key.keysym.sym == SDLK_a) {

@@ -46,11 +46,19 @@ struct Scene {
         
         glm::mat4x3 make_world_to_local() const;
         
+        /*
+         * I believe that the best way to account for multiple instances of meshes in my program is to allow for
+         * copy-constructing transforms. So, I have reenabled the copy-constructor. I take care to ensure the only
+         * transforms in use are the ones that come with the scene (whose directions are handled by the Scene custom
+         * copy-constructor) and ones that I store in the Garden (whose ownership is strictly the Garden's).
+         * There should be no hanging or leaking pointers.
+         *
         //since hierarchy is tracked through pointers, copy-constructing a transform  is not advised:
         Transform(Transform const &) = delete;
         
         //if we delete some constructors, we need to let the compiler know that the default constructor is still okay:
         Transform() = default;
+         */
     };
     
     struct Drawable {
@@ -126,10 +134,10 @@ struct Scene {
     };
     
     //Scenes, of course, may have many of the above objects:
-    std::list <Transform> transforms;
-    std::list <Drawable> drawables;
-    std::list <Camera> cameras;
-    std::list <Light> lights;
+    std::list<Transform> transforms;
+    std::list<Drawable> drawables;
+    std::list<Camera> cameras;
+    std::list<Light> lights;
     
     //The "draw" function provides a convenient way to pass all the things in a scene to OpenGL:
     void draw(Camera const &camera) const;

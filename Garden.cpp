@@ -27,33 +27,55 @@ Load<Garden> loaded_garden(LoadTagDefault, []() -> Garden const * {
                 fprintf(stderr, "Found mesh with name: %s\n", mesh_name.c_str());
                 fprintf(stderr, "Transform has name: %s\n", transform->name.c_str());
                 
+                Scene::Drawable::Pipeline pipeline = lit_color_texture_program_pipeline;
+                pipeline.vao = garden_meshes_for_lit_color_texture_program;
+                pipeline.type = mesh.type;
+                pipeline.start = mesh.start;
+                pipeline.count = mesh.count;
+                
                 if (transform->name == "Small Tulip") {
-                    garden->flower_meshes[Flower::Tulip][0] = mesh;
+                    garden->flower_pipelines[Flower::Tulip][0] = pipeline;
+                    garden->flower_transforms[Flower::Tulip][0] = *transform;
                 } else if (transform->name == "Medium Tulip") {
-                    garden->flower_meshes[Flower::Tulip][1] = mesh;
+                    garden->flower_pipelines[Flower::Tulip][1] = pipeline;
+                    garden->flower_transforms[Flower::Tulip][1] = *transform;
                 } else if (transform->name == "Big Tulip") {
-                    garden->flower_meshes[Flower::Tulip][2] = mesh;
+                    garden->flower_pipelines[Flower::Tulip][2] = pipeline;
+                    garden->flower_transforms[Flower::Tulip][2] = *transform;
                 } else {
                     scene.drawables.emplace_back(transform);
-                    Scene::Drawable &drawable = scene.drawables.back();
-                    
-                    drawable.pipeline = lit_color_texture_program_pipeline;
-                    
-                    drawable.pipeline.vao = garden_meshes_for_lit_color_texture_program;
-                    drawable.pipeline.type = mesh.type;
-                    drawable.pipeline.start = mesh.start;
-                    drawable.pipeline.count = mesh.count;
-                    
+                    scene.drawables.back().pipeline = pipeline;
                 }
             });
+    
     for (size_t i = 0; i < Garden::SIZE; i++) {
         for (size_t j = 0; j < Garden::SIZE; j++) {
+            // This technically is not uniform but it's not to any noticeable degree
             garden->flowers[i][j] = (Flower) ((size_t) rand() % Flower::FlowerCount);
             garden->water[i][j] = 0;
+            garden->grid_positions[i][j].position = glm::vec3();
+            garden->grid_positions[i][j].name = Garden::flower_drawable_name(i, j);
+            garden->grid_positions[i][j].position = glm::vec3((float) i - 9.5f, (float) j - 9.5f, 0.0f);
         }
     }
     
     return garden;
 });
 
+void Garden::remove_flower(size_t row, size_t col) {
+    scene.drawables.remove_if([&](Scene::Drawable &drawable) {
+        return drawable.transform->name == flower_drawable_name(row, col);
+    });
+}
 
+void Garden::place_flower(Flower flower, size_t size, size_t row, size_t col) {
+    remove_flower(row, col);
+    scene.drawables.emplace_back(&grid_positions[row][col]);
+    scene.drawables.back().pipeline = flower_pipelines[flower][size];
+    scene.drawables.back().transform->rotation = flower_transforms[flower][size].rotation;
+    scene.drawables.back().transform->scale = flower_transforms[flower][size].scale;
+}
+
+std::string Garden::flower_drawable_name(size_t row, size_t col) {
+    return "Flower:" + std::to_string(row) + ":" + std::to_string(col);
+}
