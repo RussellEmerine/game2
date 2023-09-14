@@ -17,5 +17,6 @@ Water your flowers by holding left click.
 Collect a flower with right click.
 When you have enough of each type of petal, you can
 walk up to a tangram and right click to complete it.
+(Last feature is a work in progress.)
 
 This game was built with [NEST](NEST.md).
