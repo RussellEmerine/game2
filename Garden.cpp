@@ -33,6 +33,7 @@ Load<Garden> loaded_garden(LoadTagDefault, []() -> Garden const * {
                 pipeline.start = mesh.start;
                 pipeline.count = mesh.count;
                 
+                // This could be for loops but, as a wise one once said, "ain't nobody got time for that"
                 if (transform->name == "Small Tulip") {
                     garden->flower_pipelines[Flower::Tulip][Maturity::Small] = pipeline;
                     garden->flower_transforms[Flower::Tulip][Maturity::Small] = *transform;
@@ -60,6 +61,24 @@ Load<Garden> loaded_garden(LoadTagDefault, []() -> Garden const * {
                 } else if (transform->name == "Big Daffodil") {
                     garden->flower_pipelines[Flower::Daffodil][Maturity::Big] = pipeline;
                     garden->flower_transforms[Flower::Daffodil][Maturity::Big] = *transform;
+                } else if (transform->name == "Small Iris") {
+                    garden->flower_pipelines[Flower::Iris][Maturity::Small] = pipeline;
+                    garden->flower_transforms[Flower::Iris][Maturity::Small] = *transform;
+                } else if (transform->name == "Medium Iris") {
+                    garden->flower_pipelines[Flower::Iris][Maturity::Medium] = pipeline;
+                    garden->flower_transforms[Flower::Iris][Maturity::Medium] = *transform;
+                } else if (transform->name == "Big Iris") {
+                    garden->flower_pipelines[Flower::Iris][Maturity::Big] = pipeline;
+                    garden->flower_transforms[Flower::Iris][Maturity::Big] = *transform;
+                } else if (transform->name == "Small Cactus") {
+                    garden->flower_pipelines[Flower::Cactus][Maturity::Small] = pipeline;
+                    garden->flower_transforms[Flower::Cactus][Maturity::Small] = *transform;
+                } else if (transform->name == "Medium Cactus") {
+                    garden->flower_pipelines[Flower::Cactus][Maturity::Medium] = pipeline;
+                    garden->flower_transforms[Flower::Cactus][Maturity::Medium] = *transform;
+                } else if (transform->name == "Big Cactus") {
+                    garden->flower_pipelines[Flower::Cactus][Maturity::Big] = pipeline;
+                    garden->flower_transforms[Flower::Cactus][Maturity::Big] = *transform;
                 } else {
                     scene.drawables.emplace_back(transform);
                     scene.drawables.back().pipeline = pipeline;

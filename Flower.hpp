@@ -11,6 +11,8 @@ enum Flower : size_t {
     Tulip,
     Orchid,
     Daffodil,
+    Iris,
+    Cactus,
     FlowerCount
 };
 
