@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
     
     //create window:
     SDL_Window *window = SDL_CreateWindow(
-            "gp23 game2: enter the matr... virtual world", //TODO: remember to set a title for your game!
+            "Tangram Garden",
             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
             1280, 720, //TODO: modify window size if you'd like
             SDL_WINDOW_OPENGL
@@ -148,7 +148,7 @@ int main(int argc, char **argv) {
                     glReadBuffer(GL_FRONT);
                     int w, h;
                     SDL_GL_GetDrawableSize(window, &w, &h);
-                    std::vector <glm::u8vec4> data(w * h);
+                    std::vector<glm::u8vec4> data(w * h);
                     glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
                     for (auto &px: data) {
                         px.a = 0xff;

@@ -51,6 +51,15 @@ Load<Garden> loaded_garden(LoadTagDefault, []() -> Garden const * {
                 } else if (transform->name == "Big Orchid") {
                     garden->flower_pipelines[Flower::Orchid][Maturity::Big] = pipeline;
                     garden->flower_transforms[Flower::Orchid][Maturity::Big] = *transform;
+                } else if (transform->name == "Small Daffodil") {
+                    garden->flower_pipelines[Flower::Daffodil][Maturity::Small] = pipeline;
+                    garden->flower_transforms[Flower::Daffodil][Maturity::Small] = *transform;
+                } else if (transform->name == "Medium Daffodil") {
+                    garden->flower_pipelines[Flower::Daffodil][Maturity::Medium] = pipeline;
+                    garden->flower_transforms[Flower::Daffodil][Maturity::Medium] = *transform;
+                } else if (transform->name == "Big Daffodil") {
+                    garden->flower_pipelines[Flower::Daffodil][Maturity::Big] = pipeline;
+                    garden->flower_transforms[Flower::Daffodil][Maturity::Big] = *transform;
                 } else {
                     scene.drawables.emplace_back(transform);
                     scene.drawables.back().pipeline = pipeline;
